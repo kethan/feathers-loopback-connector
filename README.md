@@ -31,7 +31,14 @@ var loopbackConnector = require('../lib');
 var DataSource = require('loopback-datasource-juggler').DataSource;
 var ModelBuilder = require('loopback-datasource-juggler').ModelBuilder;
 var ds = new DataSource('memory');
-
+/* MongoDB connector Example
+var ds = new DataSource({
+    connector: require('loopback-connector-mongodb'),
+    host: 'localhost',
+    port: 27017,
+    database: 'mydb'
+});
+*/
 const app = feathers()
     .configure(rest())
     .configure(socketio())
