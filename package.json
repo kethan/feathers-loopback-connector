@@ -1,0 +1,74 @@
+{
+  "name": "feathers-loopback-connector",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "https://github.com/feathersjs/feathers-loopback-connector",
+  "main": "lib/",
+  "keywords": [
+    "feathers",
+    "feathers-plugin"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feathersjs/feathers-loopback-connector.git"
+  },
+  "author": {
+    "name": "Feathers contributors",
+    "email": "hello@feathersjs.com",
+    "url": "https://feathersjs.com"
+  },
+  "contributors": [],
+  "bugs": {
+    "url": "https://github.com/feathersjs/feathers-loopback-connector/issues"
+  },
+  "engines": {
+    "node": ">= 4.6.0"
+  },
+  "scripts": {
+    "prepublish": "npm run compile",
+    "publish": "git push origin --tags && npm run changelog && git push origin",
+    "release:patch": "npm version patch && npm publish",
+    "release:minor": "npm version minor && npm publish",
+    "release:major": "npm version major && npm publish",
+    "changelog": "github_changelog_generator && git add CHANGELOG.md && git commit -am \"Updating changelog\"",
+    "compile": "shx rm -rf lib/ && babel -d lib/ src/",
+    "watch": "babel --watch -d lib/ src/",
+    "lint": "semistandard src/**/*.js test/**/*.js --fix",
+    "mocha": "mocha --opts mocha.opts",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts",
+    "test": "npm run compile && npm run lint && npm run coverage",
+    "start": "npm run compile && node example/app"
+  },
+  "semistandard": {
+    "sourceType": "module",
+    "env": [
+      "mocha"
+    ]
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "debug": "^2.6.3",
+    "feathers-errors": "^2.6.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.24.1",
+    "body-parser": "^1.17.1",
+    "chai": "^3.5.0",
+    "feathers": "^2.1.1",
+    "feathers-commons": "^0.8.7",
+    "feathers-rest": "^1.7.2",
+    "feathers-service-tests": "^0.9.3",
+    "feathers-socketio": "^1.6.0",
+    "istanbul": "^1.1.0-alpha.1",
+    "loopback-datasource-juggler": "^3.5.0",
+    "mocha": "^3.2.0",
+    "semistandard": "^10.0.0",
+    "shx": "^0.2.2"
+  }
+}
