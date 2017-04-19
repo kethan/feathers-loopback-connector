@@ -23,27 +23,34 @@ Please refer to the [feathers-loopback-connector documentation](http://docs.feat
 Here's an example of a Feathers server that uses `feathers-loopback-connector`. 
 
 ```js
-const feathers = require('feathers');
-const rest = require('feathers-rest');
-const hooks = require('feathers-hooks');
-const bodyParser = require('body-parser');
-const errorHandler = require('feathers-errors/handler');
-const plugin = require('feathers-loopback-connector');
+var feathers = require('feathers');
+var bodyParser = require('body-parser');
+var rest = require('feathers-rest');
+var socketio = require('feathers-socketio');
+var loopbackConnector = require('../lib');
+var DataSource = require('loopback-datasource-juggler').DataSource;
+var ModelBuilder = require('loopback-datasource-juggler').ModelBuilder;
+var ds = new DataSource('memory');
 
-// Initialize the application
 const app = feathers()
-  .configure(rest())
-  .configure(hooks())
-  // Needed for parsing bodies (login)
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }))
-  // Initialize your feathers plugin
-  .use('/plugin', plugin())
-  .use(errorHandler());
+    .configure(rest())
+    .configure(socketio())
+    .use(bodyParser.json())
+    .use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(3030);
+var MessageSchema = ds.createModel('message', {
+    title: { type: String },
+    body: { type: String }
+});
+app.use('/messages', loopbackConnector({
+    Model: MessageSchema,
+    paginate: {
+        default: 2,
+        max: 4
+    }
+}));
 
-console.log('Feathers app started on 127.0.0.1:3030');
+module.exports = app.listen(3030);
 ```
 
 ## License
