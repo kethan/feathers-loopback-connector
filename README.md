@@ -75,7 +75,7 @@ query: {
 
 ```js
 query: {
-  size: {$between: [0,7]}
+  size: { $between: [0,7] }
 }
 ```
 
@@ -83,7 +83,7 @@ query: {
 
 ```js
 query: {
-  id: {$inq: [123, 234]}
+  id: { $inq: [123, 234] }
 }
 ```
 
@@ -91,7 +91,7 @@ query: {
 
 ```js
 query: {
-  {name: {$like: '%St%'}}
+  name: { $like: '%St%' }
 }
 ```
 
@@ -99,7 +99,7 @@ query: {
 
 ```js
 query: {
-  {name: {$nlike: 'M%XY'}}
+  name: { $nlike: 'M%XY' }
 }
 ```
 
@@ -107,7 +107,7 @@ query: {
 
 ```js
 query: {
-  {title: {$ilike: 'm.-st'}}
+  title: { $ilike: 'm.-st' }
 }
 ```
 
@@ -115,7 +115,7 @@ query: {
 
 ```js
 query: {
-  {title: {$nilike: 'm.-xy'}}
+  title: { $nilike: 'm.-xy' }
 }
 ```
 
@@ -123,7 +123,7 @@ query: {
 
 ```js
 query: {
-  {title: {$regexp: '^T'}}
+  title: { $regexp: '^T' }
 }
 ```
 
@@ -132,9 +132,9 @@ query: {
 ```js
 location = '42.266271,-72.6700016';  // String
 location = [42.266271, -72.6700016]; // Array
-location = {lat: 42.266271, lng: -72.6700016};  // Object Literal
+location = { lat: 42.266271, lng: -72.6700016 };  // Object Literal
 query: {
-  {geo: {$near: location }}
+  geo: { $near: location }
 }
 ```
 
@@ -142,9 +142,9 @@ query: {
 
 ```js
 query: {
-  geo: {
-      $near: location,
-      $maxDistance: 2
+    geo: {
+        $near: location,
+        $maxDistance: 2
     }
 }
 ```
@@ -153,9 +153,9 @@ query: {
 
 ```js
 query: {
-   geo: {
-      $near: location,
-      $minDistance: 2
+    geo: {
+        $near: location,
+        $minDistance: 2
     }
 }
 ```
@@ -164,12 +164,12 @@ query: {
 
 To change the units of measurement, specify unit property to one of the following:
 
-kilometers
-meters
-miles
-feet
-radians
-degrees
+kilometers  
+meters  
+miles  
+feet  
+radians  
+degrees  
 ```js
 query: {
     geo: {
