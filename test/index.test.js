@@ -1,14 +1,11 @@
-const assert = require('assert');
-const expect = require('chai');
+// const assert = require('assert');
+// const expect = require('chai');
 const tests = require('feathers-service-tests');
-const Proto = require('uberproto');
-
+// const Proto = require('uberproto');
 const errors = require('feathers-errors');
 const feathers = require('feathers');
 const server = require('../example/app');
-const commons = require('feathers-commons');
 var DataSource = require('loopback-datasource-juggler').DataSource;
-var ModelBuilder = require('loopback-datasource-juggler').ModelBuilder;
 var ds = new DataSource('memory');
 const Service = require('../src');
 

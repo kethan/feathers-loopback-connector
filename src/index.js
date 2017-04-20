@@ -1,7 +1,7 @@
 const errors = require('feathers-errors');
 const makeDebug = require('debug');
 const debug = makeDebug('feathers-loopback-connector');
-const error = makeDebug('feathers-loopback-connector:error');
+// const error = makeDebug('feathers-loopback-connector:error');
 const commons = require('feathers-commons');
 // if (!global._babelPolyfill) { require('babel-polyfill'); }
 
