@@ -79,7 +79,19 @@ class Service {
         .replace(/\$gt/g, 'gt')
         .replace(/\$gte/g, 'gte')
         .replace(/\$ne/g, 'neq')
-        .replace(/\$or/g, 'or');
+        .replace(/\$or/g, 'or')
+        .replace(/\$and/g, 'and')
+        .replace(/\$between/g, 'between')
+        .replace(/\$inq/g, 'inq')
+        .replace(/\$like/g, 'like')
+        .replace(/\$nlike/g, 'nlike')
+        .replace(/\$ilike/g, 'ilike')
+        .replace(/\$nilike/g, 'nilike')
+        .replace(/\$regexp/g, 'regexp')
+        .replace(/\$near/g, 'near')
+        .replace(/\$maxDistance/g, 'maxDistance')
+        .replace(/\$minDistance/g, 'minDistance')
+        .replace(/\$unit/g, 'unit')
       newQuery.where = JSON.parse(replaced);
       debug('New Query', newQuery);
       return newQuery;

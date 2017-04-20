@@ -60,8 +60,129 @@ app.use('/messages', loopbackConnector({
 module.exports = app.listen(3030);
 ```
 
+## Supported Loopback specific queries
+
+On top of the standard, cross-adapter [queries](http://docs.feathersjs.com/databases/querying.html), feathers-loopback-connector also supports Loopback specific queries.
+
+### $and
+
+```js
+query: {
+  $and: [{ field1: 'foo' }, { field2: 'bar' }]
+}
+```
+### $between
+
+```js
+query: {
+  size: {$between: [0,7]}
+}
+```
+
+### $inq
+
+```js
+query: {
+  id: {$inq: [123, 234]}
+}
+```
+
+### $like
+
+```js
+query: {
+  {name: {$like: '%St%'}}
+}
+```
+
+### $nlike
+
+```js
+query: {
+  {name: {$nlike: 'M%XY'}}
+}
+```
+
+### $ilike
+
+```js
+query: {
+  {title: {$ilike: 'm.-st'}}
+}
+```
+
+### $nilike
+
+```js
+query: {
+  {title: {$nilike: 'm.-xy'}}
+}
+```
+
+### $regexp
+
+```js
+query: {
+  {title: {$regexp: '^T'}}
+}
+```
+
+### $near
+
+```js
+location = '42.266271,-72.6700016';  // String
+location = [42.266271, -72.6700016]; // Array
+location = {lat: 42.266271, lng: -72.6700016};  // Object Literal
+query: {
+  {geo: {$near: location }}
+}
+```
+
+### $maxDistance
+
+```js
+query: {
+  geo: {
+      $near: location,
+      $maxDistance: 2
+    }
+}
+```
+
+### $minDistance
+
+```js
+query: {
+   geo: {
+      $near: location,
+      $minDistance: 2
+    }
+}
+```
+
+### $unit
+
+```js
+To change the units of measurement, specify unit property to one of the following:
+
+kilometers
+meters
+miles
+feet
+radians
+degrees
+
+query: {
+    geo: {
+        $near: userLocation,
+        $maxDistance: 2,
+        $unit: 'kilometers'
+    }
+}
+```
+
 ## License
 
-Copyright (c) 2016
+Copyright (c) 2017
 
 Licensed under the [MIT license](LICENSE).
