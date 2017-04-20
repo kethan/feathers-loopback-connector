@@ -1,6 +1,6 @@
 {
   "name": "feathers-loopback-connector",
-  "description": "",
+  "description": "[![Build Status](https://travis-ci.org/feathersjs/feathers-loopback-connector.png?branch=master)](https://travis-ci.org/feathersjs/feathers-loopback-connector) [![Code Climate](https://codeclimate.com/github/feathersjs/feathers-loopback-connector/badges/gpa.svg)](https://codeclimate.com/github/feathersjs/feathers-loopback-connector) [![Test Coverage](https://codeclimate.com/github/feathersjs/feathers-loopback-connector/badges/coverage.svg)](https://codeclimate.com/github/feathersjs/feathers-loopback-connector/coverage) [![Dependency Status](https://img.shields.io/david/feathersjs/feathers-loopback-connector.svg?style=flat-square)](https://david-dm.org/feathersjs/feathers-loopback-connector) [![Download Status](https://img.shields.io/npm/dm/feathers-loopback-connector.svg?style=flat-square)](https://www.npmjs.com/package/feathers-loopback-connector)",
   "version": "0.0.0",
   "homepage": "https://github.com/feathersjs/feathers-loopback-connector",
   "main": "lib/",
@@ -13,11 +13,7 @@
     "type": "git",
     "url": "git://github.com/feathersjs/feathers-loopback-connector.git"
   },
-  "author": {
-    "name": "Feathers contributors",
-    "email": "hello@feathersjs.com",
-    "url": "https://feathersjs.com"
-  },
+  "author": "Feathers contributors <hello@feathersjs.com> (https://feathersjs.com)",
   "contributors": [],
   "bugs": {
     "url": "https://github.com/feathersjs/feathers-loopback-connector/issues"
@@ -47,11 +43,13 @@
     ]
   },
   "directories": {
-    "lib": "lib"
+    "example": "example",
+    "test": "test"
   },
   "dependencies": {
     "debug": "^2.6.3",
-    "feathers-errors": "^2.6.3"
+    "feathers-errors": "^2.6.3",
+    "feathers-commons": "^0.8.7"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -61,7 +59,6 @@
     "body-parser": "^1.17.1",
     "chai": "^3.5.0",
     "feathers": "^2.1.1",
-    "feathers-commons": "^0.8.7",
     "feathers-rest": "^1.7.2",
     "feathers-service-tests": "^0.9.3",
     "feathers-socketio": "^1.6.0",
