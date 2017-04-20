@@ -62,7 +62,7 @@ module.exports = app.listen(3030);
 
 ## Supported Loopback specific queries
 
-On top of the standard, cross-adapter [queries](http://docs.feathersjs.com/databases/querying.html), feathers-loopback-connector also supports Loopback specific queries.
+On top of the standard, cross-adapter [queries](http://docs.feathersjs.com/databases/querying.html), feathers-loopback-connector also supports [Loopback specific queries](http://loopback.io/doc/en/lb3/Where-filter.html).
 
 ### $and
 
@@ -162,7 +162,6 @@ query: {
 
 ### $unit
 
-```js
 To change the units of measurement, specify unit property to one of the following:
 
 kilometers
@@ -171,10 +170,10 @@ miles
 feet
 radians
 degrees
-
+```js
 query: {
     geo: {
-        $near: userLocation,
+        $near: location,
         $maxDistance: 2,
         $unit: 'kilometers'
     }
