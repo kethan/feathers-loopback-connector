@@ -9,7 +9,7 @@ class Service {
   // options;
   // model;
 
-  constructor (options = {}) {
+  constructor(options = {}) {
     this.options = options;
     this.paginate = options.paginate || {};
     this.id = options.id || 'id';
@@ -21,13 +21,13 @@ class Service {
   //     return Proto.extend(obj, this);
   // }
 
-  parse (number) {
+  parse(number) {
     if (typeof number !== 'undefined') {
       return Math.abs(parseInt(number, 10));
     }
   }
 
-  getLimit (limit, paginate) {
+  getLimit(limit, paginate) {
     if (paginate && paginate.default) {
       const lower = typeof limit === 'number' ? limit : paginate.default;
       const upper = typeof paginate.max === 'number' ? paginate.max : Number.MAX_VALUE;
@@ -36,7 +36,7 @@ class Service {
     return limit;
   }
 
-  transformQuery (queryParams, paginate) {
+  transformQuery(queryParams, paginate) {
     let query = JSON.parse(JSON.stringify(queryParams));
     let newQuery = {};
     if (query.query) {
@@ -98,7 +98,7 @@ class Service {
     return queryParams;
   }
 
-  find (params) {
+  find(params) {
     const paginate = (params && typeof params.paginate !== 'undefined') ? params.paginate : this.paginate;
     params.query = params.query || {};
     if (!paginate.default) {
@@ -111,14 +111,14 @@ class Service {
             return Promise.resolve({
               total: count,
               limit: this.getLimit(this.parse(params.query.$limit), paginate),
-              skip: params.query.$skip ? params.query.$skip : 0,
+              skip: params.query.$skip ? parseInt(params.query.$skip) : 0,
               data: results
             });
           });
       });
   }
 
-  get (id, params) {
+  get(id, params) {
     return this.model.findById(id).then(result => {
       if (!result) {
         return Promise.reject(
@@ -129,7 +129,7 @@ class Service {
         .then(commons.select(params, this.id));
     });
   }
-  create (data, params) {
+  create(data, params) {
     if (data instanceof Array) {
       return this.model.create(data);
     } else {
@@ -137,7 +137,7 @@ class Service {
         .then(commons.select(params, this.id));
     }
   }
-  update (id, data, params) {
+  update(id, data, params) {
     if (Array.isArray(data) || id === null) {
       return Promise.reject(new errors.BadRequest('Not replacing multiple records. Did you mean `patch`?'));
     }
@@ -152,7 +152,7 @@ class Service {
         );
       });
   }
-  patch (id, data, params) {
+  patch(id, data, params) {
     if (id === null) {
       return this.model.updateAll(this.transformQuery(params).where, data)
         .then((result) => {
@@ -183,7 +183,7 @@ class Service {
           });
       });
   }
-  remove (id, params) {
+  remove(id, params) {
     if (id === null) {
       return this.model.find(this.transformQuery(this.transformQuery(params), {}))
         .then((results) => {
@@ -217,12 +217,12 @@ class Service {
     });
   }
 
-  whatData (params) {
+  whatData(params) {
     return this.model.find(this.transformQuery(params, {}));
   }
 }
 
-export default function init (options) {
+export default function init(options) {
   debug('Initializing feathers-loopback-connector adapter');
   return new Service(options);
 }
