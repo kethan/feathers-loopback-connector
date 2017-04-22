@@ -77,6 +77,7 @@ class Service {
         .replace(/\$gt/g, 'gt')
         .replace(/\$gte/g, 'gte')
         .replace(/\$ne/g, 'neq')
+        .replace(/\$not/g, 'neq')
         .replace(/\$or/g, 'or')
         .replace(/\$and/g, 'and')
         .replace(/\$between/g, 'between')
@@ -169,7 +170,7 @@ class Service {
             new errors.NotFound(`No record found for id '${id}'`)
           );
         }
-        return this.model.replaceById(id, Object.assign({}, result, data))
+        return this.model.replaceById(id, Object.assign({}, JSON.parse(JSON.stringify(result)), JSON.parse(JSON.stringify(data))))
           .then(result1 => {
             return Promise.resolve(result1)
               .then(commons.select(params, this.id));
