@@ -141,7 +141,7 @@ class Service {
     if (Array.isArray(data) || id === null) {
       return Promise.reject(new errors.BadRequest('Not replacing multiple records. Did you mean `patch`?'));
     }
-
+    delete data.id;
     return this.model.replaceById(id, data)
       .then(result => {
         return Promise.resolve(result)
@@ -170,7 +170,9 @@ class Service {
             new errors.NotFound(`No record found for id '${id}'`)
           );
         }
-        return this.model.replaceById(id, Object.assign({}, JSON.parse(JSON.stringify(result)), JSON.parse(JSON.stringify(data))))
+        let patchData = Object.assign({}, JSON.parse(JSON.stringify(result)), JSON.parse(JSON.stringify(data)));
+        delete patchData.id;
+        return this.model.replaceById(id, patchData)
           .then(result1 => {
             return Promise.resolve(result1)
               .then(commons.select(params, this.id));
