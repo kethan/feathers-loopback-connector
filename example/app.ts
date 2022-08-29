@@ -13,12 +13,8 @@ import { DataSource } from 'loopback-datasource-juggler';
 
 const ds = new DataSource({
     connector: 'loopback-connector-mongodb',
-    url: "mongodb://mongo:vPoqI42tzqhGNqzQnOGS@containers-us-west-19.railway.app:6302",
-    // database: 'try'
     // connector: require('loopback-connector-postgresql'),
-    // url: "postgresql://postgres:fldfaKtL8Z7RndidtqhU@containers-us-west-75.railway.app:7613/railway"
-    // host: 'localhost',
-    // port: 27017,
+    url: ""
 
 });
 

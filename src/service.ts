@@ -4,7 +4,8 @@ import {
     AdapterServiceOptions,
     PaginationOptions,
     PaginationParams,
-    AdapterParams
+    AdapterParams,
+    AdapterQuery
 } from '@feathersjs/adapter-commons'
 import { NullableId, Id, Params, ServiceMethods, Paginated } from '@feathersjs/feathers'
 import _ from 'lodash';
@@ -47,14 +48,25 @@ export interface LoopBackServiceOptions extends AdapterServiceOptions {
     model?: any;
 }
 
-export class LoopBackAdapter<T = any, D = Partial<T>, P extends Params = Params> extends AdapterBase<
+export interface LoopBackAdapterParams<Q = AdapterQuery>
+    extends AdapterParams<Q, Partial<LoopBackServiceOptions>> {
+    $include: string[];
+}
+
+export class LoopBackAdapter<T = any, D = Partial<T>, P extends Params = LoopBackAdapterParams> extends AdapterBase<
     T,
     D,
     P,
     LoopBackServiceOptions
 > {
     constructor(options: LoopBackServiceOptions) {
-        super(options);
+        super({
+            id: options.id,
+            filters: {
+                $include: true
+            },
+            ...options
+        });
     }
 
     parse(number: string) {
@@ -96,7 +108,8 @@ export class LoopBackAdapter<T = any, D = Partial<T>, P extends Params = Params>
     async $find(_params?: P & { paginate: false }): Promise<T[]>
     async $find(_params?: P): Promise<Paginated<T> | T[]>
     async $find(params: P = {} as P): Promise<Paginated<T> | T[]> {
-        const { paginate } = this.getOptions(params)
+        const { paginate } = this.getOptions(params);
+        // @ts-ignore
         params.query = params.query || {};
         const filter = this.transformQuery(params, paginate);
         const getResults = () => filter.limit === 0 ? Promise.resolve([]) : this.options.model.find(filter);
@@ -215,7 +228,7 @@ export class LoopBackAdapter<T = any, D = Partial<T>, P extends Params = Params>
     }
 }
 
-export class LoopBackService<T = any, D = Partial<T>, P extends AdapterParams = AdapterParams>
+export class LoopBackService<T = any, D = Partial<T>, P extends LoopBackAdapterParams = LoopBackAdapterParams>
 
     extends LoopBackAdapter<T, D, P>
     implements ServiceMethods<T | Paginated<T>, D, P>
