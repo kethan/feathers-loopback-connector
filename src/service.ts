@@ -9,7 +9,6 @@ import {
 } from '@feathersjs/adapter-commons'
 import { NullableId, Id, Params, ServiceMethods, Paginated } from '@feathersjs/feathers'
 import _ from 'lodash';
-// @ts-ignore
 import { coerceQueryToLoopbackFilter, getLimit, parse } from './utils';
 
 function pick(source: any, ...keys: any) {
@@ -63,8 +62,10 @@ export class LoopBackAdapter<T = any, D = Partial<T>, P extends Params = LoopBac
         super({
             id: options.id,
             filters: {
-                $include: true
+                $include: true,
+                $and: true
             },
+            operators: [ '$and', '$between', '$like', '$inq', '$nlike', '$ilike', '$nilike', '$regexp', '$near', '$maxDistance', '$minDistance', '$unit' ],
             ...options
         });
     }

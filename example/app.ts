@@ -1,30 +1,14 @@
 import { feathers } from '@feathersjs/feathers'
-// @ts-ignore
 import express, { json, urlencoded, rest } from '@feathersjs/express'
 import { LoopBackService } from '../src/service';
-
-// import loopbackConnector from 'feathers-loopback-connector';
 import { DataSource } from 'loopback-datasource-juggler';
+const ds = new DataSource('memory');
 
-// const db = knex({
-//     client: 'pg',
-//     connection: "postgresql://postgres:fldfaKtL8Z7RndidtqhU@containers-us-west-75.railway.app:7613/railway",
-// });
-
-const ds = new DataSource({
-    connector: 'loopback-connector-mongodb',
-    // connector: require('loopback-connector-postgresql'),
-    url: ""
-
-});
-
-// const messages = new MemoryService({
-//     model: ds,
-//     // name: 'messages',
-//     paginate: {
-//         default: 10,
-//         max: 100
-//     }
+// mongodb or postgresql
+// const ds = new DataSource({
+//     connector: 'loopback-connector-mongodb',
+//     connector: 'loopback-connector-postgresql',
+//     url: ""
 // });
 
 interface Message {
@@ -39,9 +23,7 @@ type ServiceTypes = {
 const app = express(feathers<ServiceTypes>());
 
 app.use(json())
-// Turn on URL-encoded parser for REST services
 app.use(urlencoded({ extended: true }))
-// Set up REST transport
 app.configure(rest());
 
 var MessageSchema = ds.createModel('messages', {
@@ -52,8 +34,7 @@ var MessageSchema = ds.createModel('messages', {
 app.use('messages', new LoopBackService({
     id: "_id",
     multi: true,
-    model: ds,
-    // name: 'messages',
+    model: MessageSchema,
     paginate: {
         default: 10,
         max: 100
@@ -61,5 +42,6 @@ app.use('messages', new LoopBackService({
 }));
 
 app
-    .listen(3000)
-    .then(() => console.log('Feathers server listening on localhost:3000'))
+    .listen(3000, () => {
+        console.log('Feathers server listening on localhost:3000')
+    });

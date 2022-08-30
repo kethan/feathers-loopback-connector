@@ -22,42 +22,53 @@ Please refer to the [feathers-loopback-connector documentation](http://docs.feat
 
 Here's an example of a Feathers server that uses `feathers-loopback-connector`. 
 
-```js
-var feathers = require('feathers');
-var bodyParser = require('body-parser');
-var rest = require('feathers-rest');
-var socketio = require('feathers-socketio');
-var loopbackConnector = require('feathers-loopback-connector');
-var DataSource = require('loopback-datasource-juggler').DataSource;
-var ModelBuilder = require('loopback-datasource-juggler').ModelBuilder;
-var ds = new DataSource('memory');
-/* MongoDB connector Example
-var ds = new DataSource({
-    connector: require('loopback-connector-mongodb'),
-    host: 'localhost',
-    port: 27017,
-    database: 'mydb'
-});
-*/
-const app = feathers()
-    .configure(rest())
-    .configure(socketio())
-    .use(bodyParser.json())
-    .use(bodyParser.urlencoded({ extended: true }));
+```ts
+import { feathers } from '@feathersjs/feathers'
+import express, { json, urlencoded, rest } from '@feathersjs/express'
+import { LoopBackService } from 'feathers-loopback-connector';
+import { DataSource } from 'loopback-datasource-juggler';
+const ds = new DataSource('memory');
+// mongodb or postgresql
+// const ds = new DataSource({
+//     connector: 'loopback-connector-mongodb',
+//     connector: 'loopback-connector-postgresql',
+//     url: ""
+// });
 
-var MessageSchema = ds.createModel('message', {
-    title: { type: String },
-    body: { type: String }
+interface Message {
+    id: number
+    text: string
+}
+
+type ServiceTypes = {
+    messages: LoopBackService<Message>;
+}
+
+const app = express(feathers<ServiceTypes>());
+
+app.use(json())
+app.use(urlencoded({ extended: true }))
+app.configure(rest());
+
+var MessageSchema = ds.createModel('messages', {
+    id: { type: Number },
+    text: { type: String }
 });
-app.use('/messages', loopbackConnector({
-    Model: MessageSchema,
+
+app.use('messages', new LoopBackService({
+    id: "_id",
+    multi: true,
+    model: MessageSchema,
     paginate: {
-        default: 2,
-        max: 4
+        default: 10,
+        max: 100
     }
 }));
 
-module.exports = app.listen(3030);
+app
+    .listen(3000, () => {
+        console.log('Feathers server listening on localhost:3000')
+    });
 ```
 
 ## Supported Loopback specific queries
